@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../static/js/jquery.min.js"></script>
+	<script src="../static/js/echarts.min.js"></script>
+</head>
+
+<body>
+    <div id="tree" style="width: 1800px; height: 800px;"></div>
+    <script type="text/javascript"> 
+	var ROOT_PATH = 'D:/Vaa3D_QPH/vaa3d_tools/hackathon/Graduation_Project/FlaskWeb';
+	var data_new={{tree_json | safe}};
+	var tree_chart = echarts.init(document.getElementById('tree'));
+	var tree_option = {
+		tooltip: {
+			trigger: 'item',
+			triggerOn: 'mousemove'
+		},
+		series: [
+			{
+				type: 'tree',
+
+				data: [data_new],
+				//树图组件离容器的位置
+				top: '1%',
+				left: '15%',
+				bottom: '1%',
+				right: '7%',
+				
+				layout: 'radial',
+				symbol: 'emptyCircle',
+				
+				symbolSize: 10,
+				//树图的布局:中从左到右
+				orient: 'LR',
+				
+				//label描述了每个节点所对应的文本标签的样式
+				label: {
+					position: 'right',
+					//文本标签块文字垂直对齐方向
+					verticalAlign: 'middle',
+					//文本标签块文字水平对齐方向
+					align: 'left'
+				},
+				//叶子节点的特殊配置
+				leaves: {
+					//叶子节点对应的文本标签的特殊配置
+					label: {
+						position: 'left',
+						verticalAlign: 'middle',
+						align: 'right'
+					}
+				},
+				//子树折叠和展开的交互，打开 
+				expandAndCollapse: true,
+				
+				animationDuration: 550, //初始动画的时长
+				animationDurationUpdate: 750  //数据更新动画的时长
+			}
+		]
+	}
+	tree_chart.setOption(tree_option);
+    </script>
+</body>
+</html>

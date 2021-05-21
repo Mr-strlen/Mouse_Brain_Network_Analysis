@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    <head>
+        <meta charset="UTF-8">
+        <title>欢迎页面-X-admin2.2</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="../static/css/font.css">
+        <link rel="stylesheet" href="../static/css/xadmin.css">
+        <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../static/js/xadmin.js"></script>
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+
+                <div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">Statistics of Cell Type</div>
+                        <div class="layui-card-body" style="min-height: 20px;">
+                            <table class="layui-table layui-form">
+                                                                <thead>
+                                  <tr>
+                                    <th>Network Category</th>
+                                    <th>Diameter</th>
+                                    <th>Radius</th>
+                                    <th>Average Path Length</th>
+                                    <th>Global Transitivity (Clustering Coefficient)</th>
+                                    <th>Average of Vertex Transitivities</th>
+                                    <th>Density</th>
+                                    <th>Assortativity</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td>Neuron Network</td>
+                                    <td>{{ graph_analysis[0][0] | safe}}</td>
+                                    <td>{{ graph_analysis[0][1] | safe}}</td>
+                                    <td>{{ graph_analysis[0][2] | safe}}</td>
+                                    <td>{{ graph_analysis[0][3] | safe}}</td>
+                                    <td>{{ graph_analysis[0][4] | safe}}</td>
+                                    <td>{{ graph_analysis[0][5] | safe}}</td>
+                                    <td>{{ graph_analysis[0][6] | safe}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>ER random network</td>
+                                    <td>{{ graph_analysis[1][0] | safe}}</td>
+                                    <td>{{ graph_analysis[1][1] | safe}}</td>
+                                    <td>{{ graph_analysis[1][2] | safe}}</td>
+                                    <td>{{ graph_analysis[1][3] | safe}}</td>
+                                    <td>{{ graph_analysis[1][4] | safe}}</td>
+                                    <td>{{ graph_analysis[1][5] | safe}}</td>
+                                    <td>{{ graph_analysis[1][6] | safe}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>SW small world network</td>
+                                    <td>{{ graph_analysis[2][0] | safe}}</td>
+                                    <td>{{ graph_analysis[2][1] | safe}}</td>
+                                    <td>{{ graph_analysis[2][2] | safe}}</td>
+                                    <td>{{ graph_analysis[2][3] | safe}}</td>
+                                    <td>{{ graph_analysis[2][4] | safe}}</td>
+                                    <td>{{ graph_analysis[2][5] | safe}}</td>
+                                    <td>{{ graph_analysis[2][6] | safe}}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>BA scale-free network</td>
+                                    <td>{{ graph_analysis[3][0] | safe}}</td>
+                                    <td>{{ graph_analysis[3][1] | safe}}</td>
+                                    <td>{{ graph_analysis[3][2] | safe}}</td>
+                                    <td>{{ graph_analysis[3][3] | safe}}</td>
+                                    <td>{{ graph_analysis[3][4] | safe}}</td>
+                                    <td>{{ graph_analysis[3][5] | safe}}</td>
+                                    <td>{{ graph_analysis[3][6] | safe}}</td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">Degree Distribution</div>
+                        <div class="layui-card-body" style="min-height: 580px;">
+                            <div id="main1" class="layui-col-sm12" style="height: 500px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">Triad Censu</div>
+                        <div class="layui-card-body" style="min-height: 580px;">
+                            <div id="main2" class="layui-col-sm12" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    
+        <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+        <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main1'));
+        var option = {
+            title: {
+                text: 'Degree distribution'                
+            },
+            grid: {
+                left: '3%',
+                right: '7%',
+                bottom: '7%',
+                containLabel: true
+            },
+            tooltip: {
+                // trigger: 'axis',
+                showDelay: 0,
+                formatter: function (params) {
+                    if (params.value.length > 1) {
+                        return params.seriesName + ' :<br/>'
+                        + params.value[0] + ' , '
+                        + params.value[1] + '';
+                    }
+                    else {
+                        return params.seriesName + ' :<br/>'
+                        + params.name + ' , '
+                        + params.value + '';
+                    }
+                },
+                axisPointer: {
+                    show: true,
+                    type: 'cross',
+                    lineStyle: {
+                        type: 'dashed',
+                        width: 1
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {},
+                    brush: {
+                        type: ['rect', 'polygon', 'clear']
+                    }
+                }
+            },
+            brush: {
+            },
+            legend: {
+                data: ['Neuron network', 'ER random network','Small world network','Scale-free network'],
+                left: 'center',
+                bottom: 10
+            },
+            xAxis: [
+                {
+                    type: 'log',
+                    scale: true,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'log',
+                    scale: true,
+                    axisLabel: {
+                        formatter: '{value}'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: 'Neuron network',
+                    type: 'scatter',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: {{ degree_result[0] | safe }},
+                    markArea: {
+                        silent: true,
+                        itemStyle: {
+                            color: 'transparent',
+                            borderWidth: 1,
+                            borderType: 'dashed'
+                        },
+                        data: [[{
+                            name: 'Neuron Data Range',
+                            xAxis: 'min',
+                            yAxis: 'min'
+                        }, {
+                            xAxis: 'max',
+                            yAxis: 'max'
+                        }]]
+                    },
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: 'Max'},
+                            {type: 'min', name: 'Min'}
+                        ]
+                    }
+                },
+                {
+                    name: 'ER random network',
+                    type: 'scatter',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: {{ degree_result[1] | safe }},
+                    markArea: {
+                        silent: true,
+                        itemStyle: {
+                            color: 'transparent',
+                            borderWidth: 1,
+                            borderType: 'dashed'
+                        },
+                        data: [[{
+                            name: 'Random Data Range',
+                            xAxis: 'min',
+                            yAxis: 'min'
+                        }, {
+                            xAxis: 'max',
+                            yAxis: 'max'
+                        }]]
+                    },
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: 'Max'},
+                            {type: 'min', name: 'Min'}
+                        ]
+                    }
+                },
+                {
+                    name: 'Small world network',
+                    type: 'scatter',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: {{ degree_result[2] | safe }},
+                    markArea: {
+                        silent: true,
+                        itemStyle: {
+                            color: 'transparent',
+                            borderWidth: 1,
+                            borderType: 'dashed'
+                        },
+                        data: [[{
+                            name: 'Small-World Data Range',
+                            xAxis: 'min',
+                            yAxis: 'min'
+                        }, {
+                            xAxis: 'max',
+                            yAxis: 'max'
+                        }]]
+                    },
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: 'Max'},
+                            {type: 'min', name: 'Min'}
+                        ]
+                    }
+                },
+                {
+                    name: 'Scale-free network',
+                    type: 'scatter',
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: {{ degree_result[3] | safe }},
+                    markArea: {
+                        silent: true,
+                        itemStyle: {
+                            color: 'transparent',
+                            borderWidth: 1,
+                            borderType: 'dashed'
+                        },
+                        data: [[{
+                            name: 'Scale-Free Data Range',
+                            xAxis: 'min',
+                            yAxis: 'min'
+                        }, {
+                            xAxis: 'max',
+                            yAxis: 'max'
+                        }]]
+                    },
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: 'Max'},
+                            {type: 'min', name: 'Min'}
+                        ]
+                    }
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+        
+        //Traid cense
+        var myChart = echarts.init(document.getElementById('main2'));
+        var option = {
+            title: {
+                text: 'Triad Censu',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                data: ['Neuron network', 'ER random network','Small world network','Scale-free network']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13', '14', '15', '16']
+            },
+            yAxis: {
+                type: 'log',
+                boundaryGap: [0, 0.01]
+            },
+            series: [
+                {
+                    name: 'Neuron network',
+                    type: 'bar',
+                    data: {{ triad_censu[0] | safe }}
+                },
+                {
+                    name: 'ER random network',
+                    type: 'bar',
+                    data: {{ triad_censu[1] | safe }}
+                },
+                {
+                    name: 'Small world network',
+                    type: 'bar',
+                    data: {{ triad_censu[2] | safe }}
+                },
+                {
+                    name: 'Scale-free network',
+                    type: 'bar',
+                    data: {{ triad_censu[3] | safe }}
+                }
+            ]
+        };
+        myChart.setOption(option);
+
+    </script>
+    </body>
+</html>

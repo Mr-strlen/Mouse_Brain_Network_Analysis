@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../static/js/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1600px;height:800px;"></div>
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title : {
+                text: '神经元Axon，Dendrite长度统计',
+                subtext: '（Axon最长的十个区域）'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['Axon Length','Dendrite Length']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : [
+						{% for item in regions %}
+							'{{ item }}',
+						{% endfor %}
+					]
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'Axon Length',
+                    type:'bar',
+                    data:[
+					{% for item in axon_length %}
+						{{ item }},
+					{% endfor %}
+					],
+                    color:'#CC0066'
+                },
+				{
+                    name:'Dendrite Length',
+                    type:'bar',
+                    data:[
+					{% for item in dendrite_length %}
+						{{ item }},
+					{% endfor %}
+					],
+                    color:'#009999'
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

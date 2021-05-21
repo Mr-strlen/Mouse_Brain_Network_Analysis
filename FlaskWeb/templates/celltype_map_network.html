@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../static/js/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1600px;height:800px;"></div>
+    <script>
+		var chartDom = document.getElementById('main');
+		var myChart = echarts.init(chartDom);
+		var option;
+
+		var data = [
+		{% for x in nodes %}{name:'{{x}}',id:'{{x}}'},{% endfor %}
+		];
+
+		var edges = [
+			{% for x in edge %} {source: '{{x[0]}}',target: '{{x[1]}}'}, {% endfor %}
+		];
+		
+		option = {
+		    series: [{
+		        type: 'graph',
+		        layout: 'force',
+		        animation: false,
+		        data: data,
+		        force: {
+		            // initLayout: 'circular'
+		            // gravity: 0
+		            repulsion: 100,
+		            edgeLength: 5
+		        },
+		        edges: edges
+		    }]
+		};
+		
+		
+
+		option && myChart.setOption(option);
+    </script>
+</body>
+</html>
