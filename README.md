@@ -46,9 +46,9 @@ How to combine graph analysis and simulation
 
 ### **20210126**
 * 主要做的事情：  
-	1. 在不同的cell types上，统计了每个神经元到不同区域axon投射的长度（这里设置了一个阈值，500um）这样就可以得到一个神经元个数*投射区域个数的二维矩阵
-	2. 利用Bayesian Information Criterion (BIC)，SSE(sum of the squared errors，误差平方和)等方法确定聚类个数
-	3. 使用K-means聚类，并画出每个类别的热力图，并识别出motif
+1. 在不同的cell types上，统计了每个神经元到不同区域axon投射的长度（这里设置了一个阈值，500um）这样就可以得到一个神经元个数*投射区域个数的二维矩阵
+2. 利用Bayesian Information Criterion (BIC)，SSE(sum of the squared errors，误差平方和)等方法确定聚类个数
+3. 使用K-means聚类，并画出每个类别的热力图，并识别出motif
   
 一开始还做了层次聚类的尝试，但是linus觉得这个太复杂了  
 层次聚类参考  
@@ -81,6 +81,16 @@ https://blog.csdn.net/glodon_mr_chen/article/details/79867268
   c. 不同方法间的佐证  
 5. 确定heatmap的结果，除了使用3std的筛选，还可以加上frequenece，作为一种补充（投射到某个区域的概率有多大）大于heatmap整体均值
 6. 标准化x/total length或者使用cos，不用欧氏距离
+
+### **20210406**
+1. Graph analysis including: degee distribution (comparison to random, lattice, small world and scale free networks), network motif analysis, community detection and analysis. Analysis divided in three types of network: mesoscopic connectivity (based on previous works and data), refined networks including single cell connectivity information and refined networks accounting for different cell types given the neuron projection motifs.
+2. Multi-objective optimality analysis for structural metrics (cost, routing efficiency and storage capacity) 
+3. Simulation of the spontaneous dynamics of the networks in dipde. Set connectivity and dynamical properties for each brain region (node) in the connectivity matrix.
+4. Simulation of emulated activity patterns for visual stimuli in the thalamo-cortical loop (those are well defined in previous literature).
+5. Multi-objective optimality accounting for dynamial measures (e.g. neural complexity https://sites.google.com/site/neuralnetworkevolution/neuralcomplexity-1#TOC-Neural-Complexity, signal propagation, power of oscillations at diverse frequency bands and correlation - there are other measures that could be interesting, but those should be assessed).
+
+### **20210419**
+中期报告结束，按照老师要求需要添加更多关于图论分析的事情，后续工作重心转移到图论分析上
 
 ### **20210520**
 完成毕业论文和查重工作
