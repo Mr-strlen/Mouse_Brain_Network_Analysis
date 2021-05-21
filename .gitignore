@@ -15,9 +15,8 @@ Python_Code/mouse_connectivity
 Python_Code/Save_Data
 
 # flaskweb项目的不相关文件
-FlaskWeb
+FlaskWeb/DatasetInit.py
 FlaskWeb/app.py
-FlaskWeb/Config.py
 FlaskWeb/.env
 FlaskWeb/__pycache__/
 FlaskWeb/app.py
