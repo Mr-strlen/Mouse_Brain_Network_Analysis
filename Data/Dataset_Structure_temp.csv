@@ -1,0 +1,70 @@
+997,root,1706,root,,,,,,
+8,grey,1588,,Basic cell groups and regions,,,,,
+567,CH,900,,,Cerebrum,,,,
+688,CTX,596,,,,Cerebral cortex,,,
+695,CTXpl,572,,,,,Cortical plate,,
+315,Isocortex,539,,,,,,Isocortex,
+184,FRP,0,,,,,,,"Frontal pole, cerebral cortex"
+500,MO,91,,,,,,,Somatomotor areas
+453,SS,251,,,,,,,Somatosensory areas
+1057,GU,10,,,,,,,Gustatory areas
+677,VISC,7,,,,,,,Visceral area
+247,AUD,18,,,,,,,Auditory areas
+669,VIS,51,,,,,,,Visual areas
+31,ACA,4,,,,,,,Anterior cingulate area
+972,PL,1,,,,,,,Prelimbic area
+44,ILA,0,,,,,,,Infralimbic area
+714,ORB,8,,,,,,,Orbital area
+95,AI,36,,,,,,,Agranular insular area
+254,RSP,35,,,,,,,Retrosplenial area
+22,PTLp,14,,,,,,,Posterior parietal association areas
+541,TEa,9,,,,,,,Temporal association areas
+922,PERI,0,,,,,,,Perirhinal area
+895,ECT,4,,,,,,,Ectorhinal area
+698,OLF,12,,,,,,Olfactory areas,
+507,MOB,0,,,,,,,Main olfactory bulb
+151,AOB,0,,,,,,,Accessory olfactory bulb
+159,AON,4,,,,,,,Anterior olfactory nucleus
+589,TT,0,,,,,,,Taenia tecta
+814,DP,0,,,,,,,Dorsal peduncular area
+961,PIR,2,,,,,,,Piriform area
+619,NLOT,0,,,,,,,Nucleus of the lateral olfactory tract
+631,COA,1,,,,,,,Cortical amygdalar area
+788,PAA,1,,,,,,,Piriform-amygdalar area
+566,TR,0,,,,,,,Postpiriform transition area
+1089,HPF,21,,,,,,Hippocampal formation,
+1080,HIP,11,,,,,,,Hippocampal region
+822,RHP,10,,,,,,,Retrohippocampal region
+703,CTXsp,24,,,,,Cortical subplate,,
+16,6b,0,,,,,,"Layer 6b, isocortex",
+583,CLA,16,,,,,,Claustrum,
+942,EP,3,,,,,,Endopiriform nucleus,
+952,EPd,3,,,,,,,"Endopiriform nucleus, dorsal part"
+966,EPv,0,,,,,,,"Endopiriform nucleus, ventral part"
+131,LA,0,,,,,,Lateral amygdalar nucleus,
+295,BLA,1,,,,,,Basolateral amygdalar nucleus,
+303,BLAa,1,,,,,,,"Basolateral amygdalar nucleus, anterior part"
+311,BLAp,0,,,,,,,"Basolateral amygdalar nucleus, posterior part"
+451,BLAv,0,,,,,,,"Basolateral amygdalar nucleus, ventral part"
+319,BMA,1,,,,,,Basomedial amygdalar nucleus,
+327,BMAa,0,,,,,,,"Basomedial amygdalar nucleus, anterior part"
+334,BMAp,1,,,,,,,"Basomedial amygdalar nucleus, posterior part"
+780,PA,3,,,,,,Posterior amygdalar nucleus,
+343,BS,688,,,Brain stem,,,,
+1129,IB,677,,,,Interbrain,,,
+549,TH,657,,,,,Thalamus,,
+864,DORsm,480,,,,,,"Thalamus, sensory-motor cortex related",
+637,VENT,394,,,,,,,Ventral group of the dorsal thalamus
+406,SPF,0,,,,,,,Subparafascicular nucleus
+609,SPA,0,,,,,,,Subparafascicular area
+1044,PP,0,,,,,,,Peripeduncular nucleus
+1008,GENd,86,,,,,,,"Geniculate group, dorsal thalamus"
+856,DORpm,158,,,,,,"Thalamus, polymodal association cortex related",
+138,LAT,52,,,,,,,Lateral group of the dorsal thalamus
+239,ATN,20,,,,,,,Anterior group of the dorsal thalamus
+444,MED,14,,,,,,,Medial group of the dorsal thalamus
+571,MTN,13,,,,,,,Midline group of the dorsal thalamus
+51,ILM,8,,,,,,,Intralaminar nuclei of the dorsal thalamus
+262,RT,42,,,,,,,Reticular nucleus of the thalamus
+1014,GENv,9,,,,,,,"Geniculate group, ventral thalamus"
+958,EPI,0,,,,,,,Epithalamus

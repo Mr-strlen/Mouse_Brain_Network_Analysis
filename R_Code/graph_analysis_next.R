@@ -1,0 +1,70 @@
+library("igraph")
+library("ggplot2")
+library("gplots")
+library("foreach")
+library("Matrix")
+#setwd("/media/linus/SAMSUNG/toy_model_2d")
+setwd("I:/toy_model_2d")
+
+dir_ds <- "connectivity_matrices_2d/10rep_1350neur_1mm_axons500um/ds"
+dirs_ds <- list.dirs("connectivity_matrices_2d/10rep_1350neur_1mm_axons500um/ds", full.names = FALSE, recursive = FALSE)
+
+inputs <- list()
+g <- list()
+am <- list()
+wg <- list()
+distances <- list()
+el <- list()
+wel <- list()
+deg_dist <- list()
+path_l_hist <- list()
+spaths <- list()
+clust <- list()
+densities <- list()
+eccentricities <- list()
+diameters <- list()
+diversities <- list()
+SW_ratios <- list()
+rout_eff <- list()
+cost <- list()
+storage_caps <- list()
+storage_cap <- list()
+scp <- list()
+dts <- list()
+dtsv <- list()
+
+for(i in dirs_ds){
+  path <- file.path(dir_ds, i, "connectivity.txt")
+  path2 <- file.path(dir_ds, i, "inputs.txt")
+  inputs[[i]] <- read.table(path2)
+  g[[i]] <- read.graph(file = path, format = "edgelist", directed = TRUE)
+  am[[i]] <- get.adjacency(g[[i]])
+  wg[[i]]  <- graph.adjacency(am[[i]],weighted=TRUE)
+  distances[[i]] <- distances(wg[[i]], mode = "in", weights=1/E(wg[[i]])$weight)
+  deg_dist[[i]] <- degree.distribution(wg[[i]],cumulative=T,mode="all")
+  path_l_hist[[i]] <- path.length.hist(wg[[i]], directed = TRUE)
+  spaths[[i]] <- average.path.length(wg[[i]])/length(am[[i]]@i)
+  clust[[i]] <- transitivity(wg[[i]],("average"))
+  densities[[i]] <- graph.density(wg[[i]], loops = FALSE)
+  eccentricities[[i]] <- max(eccentricity(wg[[i]], mode = "in"))
+  diameters[[i]] <- diameter(wg[[i]], directed = TRUE, unconnected = TRUE)
+  diversities[[i]] <- mean(diversity(wg[[i]]))
+  SW_ratios[[i]] <- spaths[[i]]/clust[[i]]
+  # Cost computation
+  el[[i]] <- get.edgelist(wg[[i]])
+  wel[[i]] <- get.edge.attribute(wg[[i]], name = "weight")
+  cost[[i]] <- sum(wel[[i]])
+  # Routing efficiency computation
+  rout_effs <- (1/distances[[i]])/(dim(am[[i]])[[1]]*(dim(am[[i]])[[1]]-1))
+  rout_effs_matrix <- as.matrix(rout_effs)
+  rout_effs_matrix[!is.finite(rout_effs_matrix)] <- 0
+  rout_eff[[i]] <- sum(rout_effs_matrix)
+  # Storage capacity
+  # number of inputs  = inputs[[i]]$V2[[j]] = sum(am[[i]][,j])
+  # number of afferents = nnzero(am[[i]][,j])
+  for(j in 1:dim(am[[i]])[[1]]){
+    storage_caps[[i]] <- append(storage_caps[[i]], 2*log2(choose(sum(am[[i]][,j]) + nnzero(am[[i]][,j]) -1, sum(am[[i]][,j]))))
+    storage_caps[[i]] <- replace(storage_caps[[i]], is.infinite(storage_caps[[i]]), 0)
+  }
+  storage_cap[[i]] <- mean(storage_caps[[i]])
+}
