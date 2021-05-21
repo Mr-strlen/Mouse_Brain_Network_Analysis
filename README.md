@@ -1,23 +1,29 @@
-# Graduation Project
+# Mouse Brain Network Analysis
+希望使用小鼠单细胞形态重构数据，进行脑网络分析，发现一些有趣的结果  
+P.S. 这是本人的本科毕设也是研究生的第一个课题
   
-## Description
+## Directory Structure
 ### C++ Code
-Some test code like read .swc files.  
+Some test code like read .swc files
 
 ### Data
-Statistics and some other information to be used
+Statistics will be used
 
-### Python Code
-Some python code for quick realization of ideas to help understanding better.  
+### FlaskWeb
+A visualization system based on Flask
 
-### Test Data
-Data for test
+### NetWork Plugin, QPH
+A test vaa3d plugin and the plugin to be developed 
 
-### NetWork Plugin
-The final plugin to be developed.  
+### Note
+Notes about basic knowledge of neuroscience and project progress
 
-### Start_Presentation
-The first report
+### Other Information
+Other information used in this research  
+
+### Python Code, R_Code
+the code used for analysis
+
 
 ## Goals
 ### **20201124**
@@ -75,6 +81,9 @@ https://blog.csdn.net/glodon_mr_chen/article/details/79867268
   c. 不同方法间的佐证  
 5. 确定heatmap的结果，除了使用3std的筛选，还可以加上frequenece，作为一种补充（投射到某个区域的概率有多大）大于heatmap整体均值
 6. 标准化x/total length或者使用cos，不用欧氏距离
+
+### **20210520**
+完成毕业论文和查重工作
 
 ## Other Ideas
 1. a external interface for python
