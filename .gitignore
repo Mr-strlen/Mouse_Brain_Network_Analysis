@@ -1,6 +1,15 @@
 
-Python_Code
+# 数据类
+Error_Data
+Motif_Images
+Out
+Out_Downsample
 Temp
+
+# python 文件中的缓存文件
+Python_Code/__pycache__/
+
+# flaskweb项目的不相关文件
 FlaskWeb
 FlaskWeb/app.py
 FlaskWeb/Config.py
@@ -8,8 +17,3 @@ FlaskWeb/.env
 FlaskWeb/__pycache__/
 FlaskWeb/app.py
 FlaskWeb/.idea/workspace.xml
-Out
-Error_Data
-Out_Downsample
-Motif_Images
-R_Code
