@@ -6,8 +6,13 @@ Out
 Out_Downsample
 Temp
 
-# python 文件中的缓存文件
+# python 文件中的数据或缓存文件
 Python_Code/__pycache__/
+Python_Code/Allen_Data
+Python_Code/Jupyter/.ipynb_checkpoints
+Python_Code/Jupyter/__pycache__
+Python_Code/mouse_connectivity
+Python_Code/Save_Data
 
 # flaskweb项目的不相关文件
 FlaskWeb
