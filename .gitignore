@@ -16,8 +16,6 @@ Python_Code/Save_Data
 
 # flaskweb项目的不相关文件
 FlaskWeb/DatasetInit.py
-FlaskWeb/app.py
 FlaskWeb/.env
 FlaskWeb/__pycache__/
-FlaskWeb/app.py
 FlaskWeb/.idea/workspace.xml
