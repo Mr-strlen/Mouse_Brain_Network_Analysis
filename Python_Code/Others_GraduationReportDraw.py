@@ -1,9 +1,9 @@
 import numpy as np
 
 ## 单个神经元数据和中尺度网络的比较
-total=np.load('.\Save_Data\connection_matrix.npy')
+total=np.load('.\Save_Data\connection_matrix_combine.npy')
 single=np.load('.\Save_Data\connection_matrix_single.npy')
-middle=np.load('.\Save_Data\connection_matrix_allen.npy')
+middle=np.load('.\Save_Data\connection_matrix_middle.npy')
 data=[]
 data_s=[]
 data_m=[]

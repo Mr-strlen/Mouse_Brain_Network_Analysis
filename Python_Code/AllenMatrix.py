@@ -144,4 +144,4 @@ temp=np.log(temp*100+1)
 
 import seaborn as sns
 sns_plot = sns.heatmap(temp)
-np.save('./Save_Data/connection_matrix_allenbrainatlas.npy',allen_matrix)
+np.save('./Save_Data/connection_matrix_allenbrainatlas.npy',temp)

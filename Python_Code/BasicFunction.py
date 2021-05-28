@@ -67,13 +67,16 @@ def clear_all():
 #  根据区域id list 得到区域名称 
 def getregionname(id_list,aa):
     # 如果有同侧异侧标记
+    temp=[]
+    for x in id_list:
+        temp.append(x)
     side_list=[]
     if 'side' in str(aa):
-        for i in range(0,len(id_list)):
-            x=id_list[i].split('_')
+        for i in range(0,len(temp)):
+            x=temp[i].split('_')
             side_list.append(x[1])
             x=x[0]
-            id_list[i]=x
+            temp[i]=x
         aa=int(aa[-1])
         
     name_list=[]
@@ -81,8 +84,8 @@ def getregionname(id_list,aa):
         reader = csv.reader(f)
         struct_data=np.array(list(reader))
         area_list=struct_data[:,0].tolist()
-        for i in range(0,len(id_list)):
-            t= area_list.index(id_list[i])
+        for i in range(0,len(temp)):
+            t= area_list.index(temp[i])
             t1=struct_data[t,2+aa].tolist()
             if len(side_list):
                 name_list.append(t1+'_'+side_list[i][0:3])

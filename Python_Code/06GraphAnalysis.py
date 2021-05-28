@@ -1,16 +1,14 @@
 '''
-这里使用最基本的关系图构建方式
-1. 根据深度调整后Reco_Dataset_Cell，统计出所有连接关系
-2. 填充同侧异侧关系
-3. 将连接矩阵中所有的零使用mesoscale connectome替换 
-4. 得到关系矩阵
+网络分析的代码
 '''
 import csv
 import numpy as np
 import BasicFunction as BF
 import matplotlib.pyplot as plt
 
-## 读取Reco_Dataset_Cell得到映射矩阵 
+
+### 构建共用的行列区域名称
+## 读取Reco_Dataset_Cell得到涉及的区域
 with open("..\\Data\\Reco_Dataset_Cell.csv", "r") as f:
     reader = csv.reader(f)
     data=np.array(list(reader))
@@ -21,31 +19,7 @@ for i in data:
     projection_list.append(str(i[1])+'_'+str(i[2]))
 region_list=list(set(region_list))
 projection_list=list(set(projection_list))
-'''
-## 填充矩阵 这里很慢
-relation_map=np.zeros([len(region_list),len(projection_list)])
-relation_count=np.zeros([len(region_list),len(projection_list)]) # 统计每个投射有多少个神经元
-for i in range(0,len(region_list)):
-    print(i)
-    for j in range(0,len(projection_list)):
-        t=projection_list[j].split('_')
-        r=np.where((data[:,0]==region_list[i]) & (data[:,1]==t[0]) & (data[:,2]==t[1]))[0]
-        if len(r)>0:
-            for k in r:
-                relation_map[i,j]=relation_map[i,j]+data[k,3].astype(float)
-                relation_count[i,j]=relation_count[i,j]+1
-# 求投射的平均
-for i in range(0,len(region_list)):
-    for j in range(0,len(projection_list)):
-        if relation_count[i,j]>0:
-            relation_map[i,j]=relation_map[i,j]/relation_count[i,j]
-            # 取log(e)(mm+1)
-            if relation_map[i,j]>=40:
-                relation_map[i,j]=np.log(relation_map[i,j]/250+1)
-            else:
-                relation_map[i,j]=0
-np.save('.\Save_Data\connection_map',relation_map.astype(np.float64))
-'''
+
 projection_list1=BF.getregionname(projection_list,'side1')
 region_list1=BF.getregionname(region_list,1)
 
@@ -63,106 +37,7 @@ for x in projection_list1:
 
 region_list=region_list1+region_list2 #soma区域列表
 projection_list=list(set(projection_list1+projection_list2)) # 投射区域列表
-'''
-## 填充反转后的矩阵 
-relation_map=np.load('./Save_Data/connection_map.npy')
-relation_matrix=np.zeros([len(region_list),len(projection_list)])
-for i in range(0,len(region_list)):
-    print(i)
-    line=region_list[i].split('_')
-    for j in range(0,len(projection_list)):
-        if line[1]=='Ips':
-            if projection_list[j] in projection_list1:
-                relation_matrix[i,j]=relation_map[region_list1.index(region_list[i]),projection_list1.index(projection_list[j])]
-        elif line[1]=='Con':
-            if projection_list[j] in projection_list2:
-                relation_matrix[i,j]=relation_map[region_list2.index(region_list[i]),projection_list2.index(projection_list[j])]
-        else:
-            print('no matching error')
-# np.save('.\Save_Data\connection_matrix_single.npy',relation_matrix.astype(np.float64))
-'''
-'''
-## 使用allen结果填充
-## 统计allen结果
-# relation_matrix=np.zeros([len(region_list),len(projection_list)])
-relation_matrix=np.load('.\Save_Data\connection_matrix_single.npy')
-with open('./Allen_Data/normalized_connection_strength.csv') as f:
-    reader=csv.reader(f)
-    data=np.array(list(reader))
-    allen_matrix=data[1:,1:].astype(np.float64)
-# 构建矩阵
-projection_list_allen=[]
-for x in list(data[0,1:]):
-    projection_list_allen.append(str(x))
-region_list_allen=[]
-for x in list(data[1:,0]):
-    region_list_allen.append(str(x))
 
-# 填充矩阵
-for i in range(0,len(region_list)):
-    t=region_list[i].split('_')
-    if t[0] not in region_list_allen:
-        print(region_list[i]+' not in lines')
-        continue
-    line=region_list_allen.index(t[0])
-    temp=allen_matrix[line,:]
-    for j in range(0, len(projection_list)):
-        if relation_matrix[i,j]==0:
-            if t[1]=='Ips':
-                tt=projection_list[j]
-            else:
-                if 'Ips' in projection_list[j]:
-                    tt=projection_list[j].replace('Ips','Con')
-                elif 'Con' in projection_list[j]:
-                    tt=projection_list[j].replace('Con','Ips')
-            if tt in projection_list_allen:
-                row=projection_list_allen.index(tt)
-                relation_matrix[i,j]=temp[row].astype(np.float64)
-            else:
-                print(projection_list[j] +' not in rows')
-np.save('.\Save_Data\connection_matrix.npy',relation_matrix.astype(np.float64))
-'''
-relation_matrix=np.load('.\Save_Data\connection_matrix.npy')
-'''
-with open("connection matrix.csv","w+",newline='') as f:
-    csv_writer = csv.writer(f)
-    for rows in relation_matrix:
-        csv_writer.writerow(rows)
-    f.close()
-'''
-
-'''
-## 输出Linus需要的文件
-# 1. 所有区域的名称和他们的大小
-area_list=[]
-region_size=np.load(file="./Save_Data/AreaTimesCalu.npy")
-for x in np.load(file="./Save_Data/RegionName.npy"):
-    area_list.append(str(x))
-
-empty=[]
-for x in list(set(projection_list+region_list)):
-    t=x.split('_')
-    if t[0] not in area_list:
-        empty.append([x,'0'])
-        print(x)
-    else:
-        empty.append([x,int(region_size[area_list.index(t[0])]/2.0)])
-with open("regions-size.csv","w+",newline='') as f:
-    csv_writer = csv.writer(f)
-    for rows in empty:
-        csv_writer.writerow(rows)
-    f.close()
-with open('data.txt','w') as f:    #设置文件对象   
-    f.write('{')
-    for i in range(0,len(region_list)):
-        for j in range(0, len(projection_list)):
-            empty="(("+region_list[i]+",'e'),("+projection_list[j]+",'e')):"+str('%.3f'%relation_matrix[i,j])+","
-            if i==len(region_list)-1 and j==len(projection_list)-1:
-                empty=empty[0:-1]
-            f.write(empty)    
-    f.write('}')
-    f.close()
-'''
 
 region_list.sort()
 projection_list.sort()
@@ -174,6 +49,7 @@ import cairo
 import cv2
 import math
 
+relation_matrix=np.load('.\Save_Data\connection_matrix_combine.npy')
 g = ig.Graph(directed=True)
 node_list=[]
 node_color=[]
@@ -240,7 +116,7 @@ g_s.es['cost']=edge_cost_s
 
 g_s.vs['label'] = node_list_s
 
-relation_matrix_middle=np.load('.\Save_Data\connection_matrix_allen.npy')
+relation_matrix_middle=np.load('.\Save_Data\connection_matrix_middle.npy')
 g_m = ig.Graph(directed=True)
 node_list_m=[]
 edge_list_m=[]
@@ -311,7 +187,7 @@ cv2.destroyAllWindows()
 
 ### 网络分析 参考https://kateto.net/netscix2016.html
 import random
-'''
+
 ### 网络形态比较（无向图）
 ## degree distribution compare
 degree_dis=g.degree_distribution()
@@ -351,8 +227,8 @@ x_er=x_er[1:]
 x_er=np.log10(x_er)
 y_er=np.log10(y_er)
 
-g_ws=ig.GraphBase.Watts_Strogatz(1, len(node_list), 33, 0.1, loops=True)
-
+g_ws=ig.GraphBase.Watts_Strogatz(1, len(node_list), 193, 0.1, loops=True)
+ig.summary(g_ws)
 while g_ws.ecount() > g.ecount():
     k=random.randrange(0,g_ws.ecount()-1)
     temp=g_ws
@@ -374,8 +250,8 @@ x_ws=x_ws[1:]
 x_ws=np.log10(x_ws)
 y_ws=np.log10(y_ws)
 
-g_ba=ig.GraphBase.Barabasi(n=len(node_list),m=34,directed=True)
-
+g_ba=ig.GraphBase.Barabasi(n=len(node_list),m=249,directed=True)
+ig.summary(g_ba)
 while g_ba.ecount() > g.ecount():
     k=random.randrange(0,g_ba.ecount()-1)
     temp=g_ba
@@ -385,7 +261,6 @@ while g_ba.ecount() > g.ecount():
     else:
         g_ba.delete_edges(k)
 
-ig.summary(g_ba)
 degree_list_ba=g_ba.degree()
 dd=plt.hist(degree_list_ba,bins=max(degree_list_ba)-min(degree_list_ba))
 x_ba=[]
@@ -417,7 +292,7 @@ plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 
 
-
+'''
 plt.close()
 bar_width = 0.13
 ## path length hist
@@ -550,8 +425,8 @@ temp=[g_s.assortativity_degree(),
       g_ba.assortativity_degree()]
 print('assortativity:')
 print(temp)
-
-
+'''
+'''
 ### 信息传递比较（有向图）
 ## Triad census distribution
 bar_width = 0.1
@@ -571,18 +446,18 @@ for x in g_ba.triad_census():
 
 plt.close()
 x=np.arange(1,17)
-# plt.bar(x, temp[0], bar_width)
-# plt.bar(x+bar_width*1, temp[1], bar_width, align="center")
-# plt.bar(x+bar_width*2, temp[2], bar_width, align="center")
-# plt.bar(x+bar_width*3, temp[3], bar_width, align="center")
+plt.bar(x, temp[0], bar_width)
+plt.bar(x+bar_width*1, temp[1], bar_width, align="center")
+plt.bar(x+bar_width*2, temp[2], bar_width, align="center")
+plt.bar(x+bar_width*3, temp[3], bar_width, align="center")
 plt.bar(x+bar_width*4, temp[4], bar_width, align="center")
 plt.bar(x+bar_width*5, temp[5], bar_width, align="center")
-plt.plot(x, temp[0])
-plt.plot(x, temp[1])
-plt.plot(x, temp[2])
-plt.plot(x, temp[3])
-plt.plot(x, temp[4])
-plt.plot(x, temp[5])
+# plt.plot(x, temp[0])
+# plt.plot(x, temp[1])
+# plt.plot(x, temp[2])
+# plt.plot(x, temp[3])
+# plt.plot(x, temp[4])
+# plt.plot(x, temp[5])
 plt.legend(['single + mesocpic','single neuron', 'mesoscopic','ER network','Small world','Scale-Free'])
 plt.ylim([0,9])
 plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],fontsize=12)
@@ -591,7 +466,7 @@ plt.xlabel('States',fontsize=12)
 plt.ylabel('Times(log)',fontsize=12)
 
 
-'''
+
 
 ## reciprocity 
 # Reciprocity defines the proportion of mutual connections in a directed graph
@@ -702,7 +577,7 @@ print('sinlgle effic after attack:')
 print(NetworkEfficiency(g_s))
 print('Mesoscopic effic after attack:')
 print(NetworkEfficiency(g_m))
-'''
+
 ## diversity
 # The structural diversity index of a vertex is simply the (normalized) Shannon entropy of the weights of the edges incident on the vertex.
 # The measure is defined for undirected graphs only; edge directions are ignored.
