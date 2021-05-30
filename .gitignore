@@ -13,6 +13,7 @@ Python_Code/Jupyter/.ipynb_checkpoints
 Python_Code/Jupyter/__pycache__
 Python_Code/mouse_connectivity
 Python_Code/Save_Data
+Python_Code/heatmap
 
 # flaskweb项目的不相关文件
 FlaskWeb/DatasetInit.py
